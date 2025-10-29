@@ -150,6 +150,7 @@ runs:
     shell: bash
     if: ${{ inputs.push-to-prime == true || inputs.push-to-prime == 'true' }}
     run: |
+      set -x
       export IID_FILE=$(mktemp)
       export IID_FILE_FLAG="--iidfile ${IID_FILE}"
       
@@ -164,6 +165,9 @@ runs:
         --yes \
         --sign-container-identity="$IDENTITY" \
         "${IMG_NAME}"
+
+      echo $?
+      set +x
       echo "IMG_NAME=${IMG_NAME}" >> "${GITHUB_ENV}"
         
     env:
