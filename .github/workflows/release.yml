@@ -35,16 +35,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
-    - name: Load Secrets from Vault
-      uses: rancher-eio/read-vault-secrets@main
-      with:
-        secrets: |
-          secret/data/github/repo/${{ github.repository }}/dockerhub/rancher/credentials username | DOCKER_USERNAME ;
-          secret/data/github/repo/${{ github.repository }}/dockerhub/rancher/credentials password | DOCKER_PASSWORD ;
-          secret/data/github/repo/${{ github.repository }}/rancher-prime-registry/credentials registry | PRIME_REGISTRY ;
-          secret/data/github/repo/${{ github.repository }}/rancher-prime-registry/credentials username | PRIME_REGISTRY_USERNAME ;
-          secret/data/github/repo/${{ github.repository }}/rancher-prime-registry/credentials password | PRIME_REGISTRY_PASSWORD
-
     - name: Publish manifest
       uses: ./.github/actions//publish-image
       with:
@@ -52,15 +42,12 @@ jobs:
         tag: ${{ github.ref_name }}${{ matrix.tag-suffix }}
         platforms: ${{ matrix.platforms }}
 
-        public-registry: docker.io
-        public-repo: rancher
-        public-username: ${{ env.DOCKER_USERNAME }}
-        public-password: ${{ env.DOCKER_PASSWORD }}
+        push-to-public: false
 
-        prime-registry: ${{ env.PRIME_REGISTRY }}
-        prime-repo: rancher
-        prime-username: ${{ env.PRIME_REGISTRY_USERNAME }}
-        prime-password: ${{ env.PRIME_REGISTRY_PASSWORD }}
+        prime-registry: ghcr.io
+        prime-repo: pjbgf
+        prime-username: pjbgf
+        prime-password: ${{ secrets.GITHUB_TOKEN }}
 
   publish-assets:
     runs-on: ubuntu-latest
