@@ -151,12 +151,12 @@ runs:
     if: ${{ inputs.push-to-prime == true || inputs.push-to-prime == 'true' }}
     run: |
       set -x
-      IMG_NAME="${REPO}/${{ inputs.image }}"
-      
+
       make ${{ inputs.make-target }}
 
       IDENTITY_REGISTRY=${IDENTITY_REGISTRY:-"$REGISTRY"}
-      IDENTITY="$IDENTITY_REGISTRY/${{ inputs.prime-repo }}/${{ inputs.image }}"
+      IDENTITY="$IDENTITY_REGISTRY/${{ inputs.prime-repo }}/${{ inputs.image }}:${TAG}"
+      IMG_NAME="${REPO}/${{ inputs.image }}:${TAG}"
 
       cosign sign \
         --oidc-provider=github-actions \
