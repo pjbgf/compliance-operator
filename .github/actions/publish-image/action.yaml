@@ -142,9 +142,9 @@ runs:
     uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
   - name: Install Cosign
     uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
-  - uses: rancherlabs/slsactl/actions/install-slsactl@3e700277a606eef755e4285d8eb8fcb89ce782b1 # before v0.0.22
+  - uses: rancherlabs/slsactl/actions/install-slsactl@c469599108d9b71b363002e0df402dfd43f8932b # before v0.0.22
     with:
-      version: 3e700277a606eef755e4285d8eb8fcb89ce782b1
+      version: c469599108d9b71b363002e0df402dfd43f8932b
 
   - name: Build and push image [Prime]
     shell: bash
