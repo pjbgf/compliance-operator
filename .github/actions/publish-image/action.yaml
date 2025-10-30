@@ -151,17 +151,20 @@ runs:
     if: ${{ inputs.push-to-prime == true || inputs.push-to-prime == 'true' }}
     run: |
       set -x
-
+      export IID_FILE=$(mktemp)
+      export IID_FILE_FLAG="--iidfile ${IID_FILE}"
+      
       make ${{ inputs.make-target }}
+      IMG_NAME="${REPO}/${{ inputs.image }}@$(head -n 1 ${IID_FILE})"
 
       IDENTITY_REGISTRY=${IDENTITY_REGISTRY:-"$REGISTRY"}
       IDENTITY="$IDENTITY_REGISTRY/${{ inputs.prime-repo }}/${{ inputs.image }}:${TAG}"
-      IMG_NAME="${REPO}/${{ inputs.image }}:${TAG}"
 
       cosign sign \
         --oidc-provider=github-actions \
         --yes \
         --sign-container-identity="$IDENTITY" \
+        --new-bundle-format=false \
         "${IMG_NAME}"
 
       echo $?
