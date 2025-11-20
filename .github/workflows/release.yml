@@ -37,7 +37,7 @@ jobs:
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
     - name: Publish manifest
-      uses: pjbgf/ecm-distro-tools/actions/publish-image@bump-slsa
+      uses: pjbgf/ecm-distro-tools/actions/publish-image@fqi
       with:
         image: compliance-operator
         tag: ${{ github.ref_name }}${{ matrix.tag-suffix }}
